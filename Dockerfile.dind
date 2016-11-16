@@ -23,6 +23,9 @@ RUN rm /sbin/modprobe && echo '#!/bin/true' >/sbin/modprobe && chmod +x /sbin/mo
 # Install a nice vimrc file
 COPY vimrc ./root/.vimrc
 
+# Remove IPv6 alias for localhost
+RUN cat /etc/hosts >/etc/hosts.bak && sed 's/^::1.*//' /etc/hosts.bak > /etc/hosts
+
 # Start docker in the background ...
 CMD dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 \
     --storage-driver=$DOCKER_STORAGE_DRIVER &>/docker.log & \
