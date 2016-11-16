@@ -21,7 +21,10 @@ RUN mkdir -p /opt && cd /opt && \
 RUN rm /sbin/modprobe && echo '#!/bin/true' >/sbin/modprobe && chmod +x /sbin/modprobe
 
 # Install a nice vimrc file
-COPY vimrc ./root/.vimrc
+COPY vimrc /root/.vimrc
+
+# Move to our home
+WORKDIR /root
 
 # Remove IPv6 alias for localhost and start docker in the background ...
 CMD cat /etc/hosts >/etc/hosts.bak && \
